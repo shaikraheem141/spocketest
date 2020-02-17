@@ -1,0 +1,107 @@
+.container.marketing
+  .row{:style => "margin-top:7%;"}
+    = form_with url: products_path, method: 'get', local: true, :html => {:class => "form-inline", :id => "search_form"} do |form|
+      = form.text_field "", value: params[:search], name: "search", class: "form-control mb-2 mr-sm-2", placeholder: "Keyword"
+      = form.select "cf", @countries, {:include_blank => "Select", :selected => params[:cf]}, {:class => "form-control mb-2 mr-sm-2", :onchange => "search_submit()"}
+      = form.text_field "", value: params[:pmi], min: @price_min, max: @price_max, type: "number", name: "pmi", class: "form-control col-md-2 mb-2 mr-sm-2", placeholder: "Price Min"
+      = form.text_field "", value: params[:pma], min: @price_min, max: @price_max, type: "number", name: "pma", class: "form-control col-md-2 mb-2 mr-sm-2", placeholder: "Price Max"
+      = form.select "sf", @sort_opts, {:include_blank => "Sort By", :selected => params[:sf]}, {:class => "form-control mb-2 mr-sm-2", :onchange => "search_submit()"}
+      = form.submit "Search", name: nil, class: "btn btn-primary mb-2"
+      = link_to 'Reset', root_path, class: "btn btn-secondary mb-2"
+
+  %hr.featurette-divider/
+  .row.featurette
+    .col-md-12
+      %h2 Listing products # #{@search.total}
+      -# = link_to 'New Product', new_product_path
+      %table.table.table-striped.table-sm
+        %thead
+          %tr
+            %th S.No
+            %th Title
+            %th Description
+            %th Country
+            %th Tags
+            %th Price
+            %th Created At
+            %th Updated At
+            %th
+
+        %tbody
+          - if !@products.empty?
+            - count = ((params[:page] || 1).to_i - 1) * 10
+            - @products.each_with_index do |product, i|
+              %tr
+                %td= count + 1 + i
+                %td= product.title
+                %td= product.description
+                %td= product.country
+                %td= product.tags
+                %td= product.price
+                %td= product.created_at
+                %td= product.updated_at
+                %td
+                  %button.btn.btn-primary{"data-target" => "#prod_mod_#{product.id}", "data-toggle" => "modal", :type => "button"} Show
+
+                  .modal.fade{"aria-hidden" => "true", :id => "prod_mod_#{product.id}", "aria-labelledby" => "exampleModalLabel", :role => "dialog", :tabindex => "-1"}
+                    .modal-dialog{:role => "document"}
+                      .modal-content
+                        .modal-header
+                          %h5#exampleModalLabel.modal-title Product Details
+                          %button.close{"aria-label" => "Close", "data-dismiss" => "modal", :type => "button"}
+                            %span{"aria-hidden" => "true"} ×
+                        .modal-body
+                          .container-fluid
+                            .row
+                              .col-lg-4 Title =>
+                              .col-lg-8 #{product.title}
+                            .row
+                              .col-lg-4 Description =>
+                              .col-lg-8 #{product.description}
+                            .row
+                              .col-lg-4 Country =>
+                              .col-lg-8 #{product.country}
+                            .row
+                              .col-lg-4 Tags =>
+                              .col-lg-8 #{product.tags}
+                            .row
+                              .col-lg-4 Price =>
+                              .col-lg-8 #{product.price}
+                            .row
+                              .col-lg-4 Created At =>
+                              .col-lg-8 #{product.created_at}
+                -# %td= link_to 'Edit', edit_product_path(product)
+                -# %td= link_to 'Destroy', product, method: :delete, data: { confirm: 'Are you sure?' }
+          - else
+            %tr
+              %td{:colspan => "9", :style => "text-align:center;"}= "No Products Found"
+      = paginate @products
+  %hr.featurette-divider/
+
+  #prod_mod_2.modal.fade{"aria-hidden" => "true", "aria-labelledby" => "exampleModalLabel", :role => "dialog", :tabindex => "-1"}
+    .modal-dialog{:role => "document"}
+      .modal-content
+        .modal-header
+          %h5#exampleModalLabel.modal-title Modal title
+          %button.close{"aria-label" => "Close", "data-dismiss" => "modal", :type => "button"}
+            %span{"aria-hidden" => "true"} ×
+        .modal-body
+          \...
+        .modal-footer
+          %button.btn.btn-secondary{"data-dismiss" => "modal", :type => "button"} Close
+          %button.btn.btn-primary{:type => "button"} Save changes
+
+
+%footer.container
+  %p.float-right
+    %a{:href => "#"} Back to top
+  %p
+    © 2018-2020 Company, Inc. ·
+    %a{:href => "#"} Privacy
+    ·
+    %a{:href => "#"} Terms
+
+:javascript
+  function search_submit() {
+    document.getElementById("search_form").submit();
+  }

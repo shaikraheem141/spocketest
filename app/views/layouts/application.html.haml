@@ -1,0 +1,58 @@
+!!!
+%html{:lang => "en"}
+  %head
+    %meta{:content => "text/html; charset=UTF-8", "http-equiv" => "Content-Type"}/
+    %meta{:charset => "utf-8"}/
+    %meta{:content => "width=device-width, initial-scale=1, shrink-to-fit=no", :name => "viewport"}/
+    %meta{:content => "Spocket Coding Problem", :name => "description"}/
+    %meta{:content => "Raheem Shaik", :name => "author"}/
+    %meta{:content => "RS v0.1", :name => "generator"}/
+    %meta{:content => "#563d7c", :name => "theme-color"}/
+    %title Spocket Product Search
+    = csrf_meta_tags
+    = csp_meta_tag
+    = stylesheet_link_tag 'application', media: 'all'
+    = javascript_pack_tag 'application'
+    :css
+      .bd-placeholder-img {
+          font-size: 1.125rem;
+          text-anchor: middle;
+          -webkit-user-select: none;
+          -moz-user-select: none;
+          -ms-user-select: none;
+          user-select: none;
+      }
+
+      .marketing .col-lg-4 {
+        margin-bottom: 1.5rem;
+        text-align: center;
+      }
+
+      .marketing h2 {
+        font-weight: 400;
+      }
+
+      .featurette-divider {
+        margin: 5rem 0 0 0; /* Space out the Bootstrap <hr> more */
+      }
+
+      .marketing .col-lg-4 p {
+        margin-right: .75rem;
+        margin-left: .75rem;
+      }
+
+      @media (min-width: 768px) {
+          .bd-placeholder-img-lg {
+              font-size: 3.5rem;
+          }
+      }
+  %body
+    %header
+      %nav.navbar.navbar-expand-md.navbar-dark.fixed-top.bg-dark
+        = link_to "Spocket", root_path, class: "navbar-brand"
+        %button.navbar-toggler{"aria-controls" => "navbarCollapse", "aria-expanded" => "false", "aria-label" => "Toggle navigation", "data-target" => "#navbarCollapse", "data-toggle" => "collapse", :type => "button"}
+          %span.navbar-toggler-icon
+        #navbarCollapse.collapse.navbar-collapse
+          %ul.navbar-nav.mr-auto
+    %main{:role => "main"}
+      = yield
