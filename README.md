@@ -5,20 +5,23 @@ application up and running.
 
 Things you may want to cover:
 
-* Ruby version
+* Ruby version => 2.6.5
 
-* System dependencies
+* Rails version => 6.0
 
-* Configuration
+* System dependencies => MySQL
 
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
+* Configuration => Change mysql username & password at config/database.yml
 
 * Deployment instructions
 
-* ...
+```
+$ bundle install
+$ yarn add bootstrap@4.4.1 jquery popper.js
+$ rails db:create
+$ rails db:migrate
+$ rails product:import_json (Products from the json file SpocketProducts.json will be imported to db)
+$ rails sunspot:solr:start
+$ rails sunspot:reindex
+
+```
